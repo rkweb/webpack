@@ -1,7 +1,6 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const imageminMozjpeg = require('imagemin-mozjpeg');
@@ -109,20 +108,6 @@ module.exports = {
             filename: 'dist/css/[hash].css',
             allChunks: true
         }),
-        // new UglifyJsPlugin({
-        //     uglifyOptions: {
-        //         compress: {
-        //             warnings: false,
-        //             drop_console: true,
-        //             collapse_vars: true,
-        //             reduce_vars: true,
-        //         },
-        //         output: {
-        //             comments: false,
-        //             beautify: false
-        //         }
-        //     }
-        // }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'src/index.html',
