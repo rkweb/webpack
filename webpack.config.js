@@ -7,6 +7,42 @@ const imageminMozjpeg = require('imagemin-mozjpeg');
 const pngquant = require('imagemin-pngquant');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
+let isDev = process.env.npm_lifecycle_event == "dev"?true:false;
+
+var plugin = [
+    new CleanWebpackPlugin(['dist']),
+    new ExtractTextPlugin({
+        filename: 'dist/css/[hash].css',
+        allChunks: true
+    }),
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: 'src/index.html',
+        inject: true,
+        hash: false,
+        minify: {
+            removeComments: true,
+            collapseWhitespace: true
+        },
+        inlineSource: '.(js|css)$'
+    }),
+    new HtmlWebpackInlineSourcePlugin()
+];
+
+if (!isDev){
+    plugin.push(new ImageminPlugin({
+        plugins: [
+            imageminMozjpeg({
+                quality: 80,
+                progressive: true
+            }),
+            pngquant({
+                quality: 70
+            })
+        ]
+    }));
+}
+
 module.exports = {
     mode: 'development',
     entry: './src/js/main.js',
@@ -121,37 +157,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new CleanWebpackPlugin(['dist']),
-        new ExtractTextPlugin({
-            filename: 'dist/css/[hash].css',
-            allChunks: true
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'src/index.html',
-            inject: true, //允许插件修改哪些内容，包括head与body
-            hash: false, //为静态资源生成hash值
-            minify: { //压缩HTML文件
-                removeComments: true, //移除HTML中的注释
-                collapseWhitespace: true //删除空白符与换行符
-            },
-            inlineSource: '.(js|css)$'
-        }),
-        new HtmlWebpackInlineSourcePlugin(),
-        new ImageminPlugin({
-            plugins: [
-                imageminMozjpeg({
-                    quality: 80,
-                    progressive: true
-                }),
-                pngquant({
-                    quality: 70
-                })
-            ]
-        })
-    ],
-   
+    plugins: plugin,
     devServer: {
         compress: true,
         port: 9000,

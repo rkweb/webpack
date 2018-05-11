@@ -1,8 +1,8 @@
 import test1 from './test.js';
 import '../css/main.css';
 
-var music = require("../music.mp3");
-$('audio').attr("src",music);
+// var music = require("../music.mp3");
+// $('audio').attr("src",music);
 console.log('test');
 test1();
 
