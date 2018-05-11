@@ -69,7 +69,7 @@ module.exports = {
                 })
             },
             {
-                test: /\.png|.jpg|.gif$/,
+                test: /\.png|.jpg|.gif|json$/,
                 use: {
                     loader: 'url-loader',
                     options: {
@@ -79,6 +79,25 @@ module.exports = {
                         outputPath: 'dist/image/',
                         name: '[name]-[hash:8].[ext]'
                     }
+                }
+            },
+            {
+                test: /\.mp3$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        publicPath: '',
+                        outputPath: 'dist/music/',
+                        name: '[name]-[hash:8].[ext]'
+                    }
+                }
+            },
+            {
+                test: /\.ts|.obj|.mtl$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name]-[hash:8].[ext]',
+                    outputPath: 'dist/asset/'
                 }
             },
             {
